@@ -258,8 +258,8 @@ html.claro .logo-claro { display: block; }
 html.claro .logo-escuro { display: none; }
 
 /* Modo interesse: formulário em passos, para quem usa pouco o computador */
-.heroi { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: 56px; align-items: center; }
-.heroi-foto { margin: 0; position: relative; width: 100%; max-width: 420px; justify-self: end; }
+.heroi { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: center; }
+.heroi-foto { margin: 0; position: relative; width: 100%; max-width: 520px; justify-self: end; }
 .heroi-foto img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 30%; border-radius: 14px; background: var(--surface-2); }
 .baloes { list-style: none; margin: 0; padding: 0; position: absolute; inset: 0; pointer-events: none; }
 .balao {
@@ -280,9 +280,9 @@ html.claro .logo-escuro { display: none; }
 .parceiros-logos:empty { display: none; }
 .parceiros img { display: block; height: 44px; width: auto; max-width: 160px; object-fit: contain; }
 .parceiros p { margin: 0; flex: 1 1 240px; font-size: 14px; line-height: 1.5; }
-.factos { list-style: none; margin: 36px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
-.factos .tempo { display: inline-flex; align-items: center; gap: 7px; background: var(--dp-bg); border-color: var(--dp-bg); color: #FFFFFF; font-weight: 500; }
-.factos li { font-size: 15px; font-weight: 400; color: var(--ink); padding: 8px 16px; border-radius: var(--r-pill); border: 1px solid var(--border-pill); background: var(--surface); }
+.factos { list-style: none; margin: 28px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 18px; }
+.factos li { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 400; color: var(--muted); }
+.factos svg { flex: none; }
 
 .passo { margin-top: 72px; }
 .passo-topo { display: grid; grid-template-columns: 44px 1fr; gap: 14px; align-items: start; margin-bottom: 24px; }
@@ -335,13 +335,17 @@ html.claro .logo-escuro { display: none; }
 
 @media (max-width: 900px) {
   .temas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .heroi { grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr); gap: 32px; }
+  .heroi { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; }
   .balao { width: 86%; padding: 7px 10px 7px 7px; gap: 8px; }
   .balao-icone { flex-basis: 30px; height: 30px; }
 }
 @media (max-width: 640px) {
   .heroi { grid-template-columns: 1fr; gap: 32px; }
-  .heroi-foto { justify-self: center; max-width: 440px; }
+  .heroi-foto { justify-self: center; max-width: 520px; }
+  .heroi { row-gap: 0; }
+  .heroi > div:first-child { display: contents; }
+  .heroi-foto { order: 2; margin-top: 32px; }
+  .heroi .factos { order: 3; margin-top: 16px; }
 }
 @media (max-width: 560px) {
   .simples { padding: 48px 0 72px; }
