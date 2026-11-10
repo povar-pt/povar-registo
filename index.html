@@ -262,7 +262,7 @@ html.claro .logo-escuro { display: none; }
 .heroi > div:first-child { display: contents; }
 .heroi .lead { max-width: 36em; }
 .heroi-foto { order: 2; margin: 40px 0 0; position: relative; width: 100%; }
-.heroi-foto img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: 50% 22%; border-radius: 16px; background: var(--surface-2); }
+.heroi-foto > img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: 50% 22%; border-radius: 16px; background: var(--surface-2); }
 .heroi .factos { order: 3; margin-top: 16px; }
 .baloes { list-style: none; margin: 0; padding: 0; position: absolute; inset: 0; pointer-events: none; }
 .balao {
@@ -278,6 +278,18 @@ html.claro .logo-escuro { display: none; }
 .balao small { display: block; font-size: 13px; color: #3A3833; line-height: 1.3; }
 .simples { max-width: 1040px; padding: 56px 0 104px; }
 .simples .lead { font-size: 19px; }
+.nav { position: relative; }
+.nav-selo { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); height: 42px; width: auto; }
+.foto-selo { position: absolute; top: 4%; right: 4%; padding: 12px; border-radius: 16px; background: rgba(255, 255, 255, 0.72); border: 1.5px solid rgba(255, 255, 255, 0.9); -webkit-backdrop-filter: blur(14px) saturate(1.1); backdrop-filter: blur(14px) saturate(1.1); box-shadow: 0 8px 24px rgba(29, 27, 34, 0.18); }
+.foto-selo img { display: block; height: 92px; width: auto; }
+.fecho-selo { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 14px; padding: 8px 0 48px; }
+.fecho-selo img { display: block; height: 112px; width: auto; }
+.fecho-selo p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--muted); }
+@media (max-width: 560px) {
+  .foto-selo { top: 3%; right: 3%; padding: 6px; border-radius: 10px; }
+  .foto-selo img { height: 52px; }
+  .fecho-selo img { height: 96px; }
+}
 .parceiros { display: flex; align-items: center; gap: 16px 20px; flex-wrap: wrap; margin: 0 0 40px; padding: 14px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); max-width: 640px; }
 .parceiros-logos { display: flex; align-items: center; gap: 18px; }
 .parceiros-logos:empty { display: none; }
@@ -338,14 +350,14 @@ html.claro .logo-escuro { display: none; }
 
 @media (max-width: 900px) {
   .temas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .heroi-foto img { aspect-ratio: 4 / 3; object-position: 50% 25%; }
+  .heroi-foto > img { aspect-ratio: 4 / 3; object-position: 50% 25%; }
   .balao { width: 50%; padding: 7px 10px 7px 7px; gap: 8px; }
   .balao b { font-size: 14px; } .balao small { font-size: 12px; }
   .balao-icone { flex-basis: 30px; height: 30px; }
 }
 @media (max-width: 640px) {
   .heroi-foto { margin-top: 32px; }
-  .heroi-foto img { aspect-ratio: 4 / 5; }
+  .heroi-foto > img { aspect-ratio: 4 / 5; }
 }
 @media (max-width: 560px) {
   .simples { padding: 48px 0 72px; }
@@ -464,6 +476,12 @@ var EVENTOS = {
         { lado: 'esq', topo: 63, icone: 'camara', t: 'Publicação pronta', d: 'foto e texto para as redes' },
         { lado: 'dir', topo: 81, icone: 'calendario', t: 'Nova marcação', d: 'sábado, 10h00, confirmada' }
       ]
+    },
+    selo: {
+      alt: 'Bairro do Coração, Bairro Comercial Digital de Viana do Castelo',
+      topo: 'parceiros/bairro-do-coracao.png',
+      destaque: 'parceiros/bairro-do-coracao-vermelho.png',
+      fecho: 'Bairro Comercial Digital da Câmara Municipal de Viana do Castelo'
     },
     parceiros: {
       texto: 'Uma iniciativa do Bairro Comercial Digital da Câmara Municipal de Viana do Castelo, com formação da Povar.',
@@ -692,6 +710,10 @@ var TEMAS = [
     }
     document.title = ev.titulo.join(' ') + ' | Inscrição Povar';
     document.getElementById('nav-meta').textContent = ev.meta || 'Inscrição';
+    if (ev.selo) {
+      document.getElementById('nav-meta').insertAdjacentHTML('beforebegin', '<img class="nav-selo" src="' + esc(ev.selo.topo) + '" alt="' + esc(ev.selo.alt) + '" onerror="this.remove()">');
+      document.querySelector('footer .rodape').insertAdjacentHTML('beforebegin', '<div class="fecho-selo"><img src="' + esc(ev.selo.destaque) + '" alt="' + esc(ev.selo.alt) + '" onerror="this.remove()"><p>' + esc(ev.selo.fecho) + '<br>com formação da Povar</p></div>');
+    }
 
     var visto = '<span class="visto" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>';
     var temas = TEMAS.map(function (t) {
@@ -723,6 +745,7 @@ var TEMAS = [
           (ev.foto.baloes ? '<ul class="baloes" aria-hidden="true">' + ev.foto.baloes.map(function (b) {
             return '<li class="balao ' + b.lado + '" style="top:' + b.topo + '%"><span class="balao-icone"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">' + ICONES[b.icone] + '</svg></span><span><b>' + esc(b.t) + '</b><small>' + esc(b.d) + '</small></span></li>';
           }).join('') + '</ul>' : '') +
+          (ev.selo ? '<span class="foto-selo"><img src="' + esc(ev.selo.destaque) + '" alt="" onerror="this.parentNode.remove()"></span>' : '') +
           '</figure>' : '') +
         '</div>' +
         (!aberto ? '<div class="passo"><h2>Inscrições fechadas</h2><p class="passo-ajuda">Para saber das próximas turmas, escreva para <a href="mailto:hello@povar.pt">hello@povar.pt</a>.</p></div>' :
@@ -877,7 +900,8 @@ var TEMAS = [
           .from('h1 .ln > span', { yPercent: 115, duration: 1.1, stagger: 0.09 }, 0.12)
           .from('.simples .lead', { autoAlpha: 0, y: 20, duration: 0.9 }, 0.36)
           .from('.factos li', { autoAlpha: 0, y: 10, duration: 0.6, stagger: 0.05 }, 0.5)
-          .from('.heroi-foto img', { autoAlpha: 0, scale: 1.03, duration: 1.1 }, 0.2)
+          .from('.heroi-foto > img', { autoAlpha: 0, scale: 1.03, duration: 1.1 }, 0.2)
+          .from('.foto-selo', { autoAlpha: 0, y: -8, duration: 0.7 }, 0.6)
           .from('.balao', { autoAlpha: 0, y: 14, scale: 0.96, duration: 0.7, stagger: 0.12 }, 0.7);
         // Momento de assinatura: as imagens dos temas assentam uma a uma, pela ordem de leitura.
         if (document.getElementById('q-temas')) {
